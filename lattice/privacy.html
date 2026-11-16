@@ -19,14 +19,24 @@
 <body>
 <main>
   <h1>Lattice: Privacy Policy</h1>
-  <p class="muted">Last updated 2026-10-08</p>
+  <p class="muted">Last updated 2026-11-15</p>
 
   <p>Lattice is a private, non-commercial health tracker for Android, used by one household. It is not offered to anyone else. The complete privacy policy is inside the app, under Settings; this page summarizes it.</p>
 
   <h2>What Google Sign-In shares</h2>
   <ul>
     <li>The Google account's name and email address, used only to create and identify the account that owns the data.</li>
-    <li>Lattice asks Google for no other permission. It cannot see the account's Gmail, Drive, contacts or anything else.</li>
+    <li>With Google Drive backup (optional), Lattice also asks for access to the files Lattice itself makes in your Google Drive, and nothing else there. It cannot see your Gmail, your other Drive files, your contacts or anything else.</li>
+  </ul>
+
+  <h2>Google sign-in and your Drive (optional)</h2>
+  <p>You don't have to use Google Drive backup; Lattice works fully without it. When you connect Google Drive on the Backup page, using the same Google account you sign in with, Lattice saves one file, lattice-backup.json, in a Lattice Backup folder in your own Drive.</p>
+  <ul>
+    <li>It holds your Lattice data from the phone and from your cloud account, except the raw records Lattice copies from Oura, Withings and Health Connect, which those services can send again. Your Oura and Withings logins, your myAir login and other secrets are never included.</li>
+    <li>Each backup replaces the last one. If a new backup has many fewer records than the last, the older one is kept as a safety copy for 30 days and then deleted.</li>
+    <li>Backups run when you tap Back up now, or once a day at your backup time when you open the app.</li>
+    <li>Restoring only adds what's missing; it never changes or removes anything you have.</li>
+    <li>Your Drive backup stays in your Drive: deleting your Lattice data or your account doesn't remove it. Delete the Lattice Backup folder in Google Drive to remove it.</li>
   </ul>
 
   <h2>What Lattice keeps</h2>
