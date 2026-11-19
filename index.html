@@ -47,7 +47,7 @@ try {
     let { data: { session } } = await sb.auth.getSession();
     if (!session) {
       setStatus('Signing you in with Google…');
-      const { error } = await sb.auth.signInWithOAuth({ provider: 'google', options: { redirectTo: location.href } });
+      const { error } = await sb.auth.signInWithOAuth({ provider: 'google', options: { redirectTo: location.href, queryParams: { prompt: 'select_account' } } });
       if (error) fail('Sign-in failed: ' + error.message);
     } else {
       // 2. What is being asked?
@@ -73,7 +73,8 @@ try {
       const deny = el('button', 'Deny'); deny.id = 'deny';
       const approve = el('button', 'Approve', 'primary'); approve.id = 'approve';
       row.append(deny, approve);
-      parts.push(row, el('p', 'Not you? Deny, then sign out of Google in this browser.', 'muted'));
+      const other = el('button', 'Use a different account'); other.id = 'other';
+      parts.push(row, other);
       app.replaceChildren(...parts);
       const buttons = [...app.querySelectorAll('button')];
       const go = async (fn) => {
@@ -85,6 +86,13 @@ try {
       };
       document.getElementById('approve').onclick = () => go((id) => sb.auth.oauth.approveAuthorization(id));
       document.getElementById('deny').onclick = () => go((id) => sb.auth.oauth.denyAuthorization(id));
+      document.getElementById('other').onclick = async () => {
+        buttons.forEach(b => b.disabled = true);
+        await sb.auth.signOut({ scope: 'local' });
+        setStatus('Signing you in with Google…');
+        const { error } = await sb.auth.signInWithOAuth({ provider: 'google', options: { redirectTo: location.href, queryParams: { prompt: 'select_account' } } });
+        if (error) fail('Sign-in failed: ' + error.message);
+      };
     }
   }
 } catch (e) {
