@@ -18,7 +18,7 @@
 <body>
 <main>
   <h1>Roundtuit: Privacy Policy</h1>
-  <p class="muted">Last updated 2026-11-16</p>
+  <p class="muted">Last updated 2026-11-21</p>
 
   <p>Roundtuit is a private to-do list app used by its owner and their household. It is not offered to the public.</p>
 
@@ -41,12 +41,25 @@
     <li>With Roundtuit Sync, your list is stored in the owner's private database, where only your own signed-in account can read or change your rows, and a copy is kept on your phone so the list shows offline.</li>
     <li>If you share: the names you give, the email address of anyone you invite (until they accept), and the tasks on the lists you share or request from. Tasks on a shared list can be seen and changed by that list's members.</li>
     <li>If you turn on reminders while signed in: a notification address for your phone (from Google's Firebase Cloud Messaging) and the app's version, used only to send your reminders and sharing alerts.</li>
-    <li>The owner's own AI app can read the owner's own tasks and, only with the owner's approval each time, add or update them.</li>
+    <li>Your own AI app can reach your list too, only if you add the AI connector (below).</li>
     <li>When Sync ends, your list moves to your phone and the server copy is kept until the end of the next full calendar month, so it can come back if you return, and is then deleted.</li>
   </ul>
 
   <h2>Android's own backup (optional)</h2>
   <p>You don't have to use it. It's set in your phone's settings, not in Roundtuit. When your phone's Google backup is on, Android copies a few small Roundtuit settings files to your own Google account, and puts them back when you reinstall Roundtuit or move to a new phone. It never copies what you keep in Roundtuit, its database or its files (Daily Backup is how to keep those). Roundtuit can't see that copy. Your sign-in tokens are left out of it.</p>
+
+  <h2>AI connector (optional)</h2>
+  <ul>
+    <li>You don't have to use it. It's off unless you add Roundtuit's connector to your own AI app (such as Claude, ChatGPT or Gemini), and it works only while you have Sync.</li>
+    <li>Your AI app signs in as you, with the Google account you use in Roundtuit, so it reaches only what your Roundtuit account can: your own list and the shared lists you're on.</li>
+    <li>It can read your tasks and categories, the lists you're on and the people on them, your display name and the Preferences that shape your list.</li>
+    <li>It can propose adding or changing tasks and adding or renaming categories, but nothing changes until you say yes in your AI app. A proposal waits at most 30 minutes for your yes and is deleted a day after that.</li>
+    <li>What you say to your AI app stays with that app and its own privacy policy; Roundtuit never receives the chat.</li>
+    <li>For your safety, Roundtuit keeps a line for each thing your AI app read or changed, shown in Settings, for 90 days or the newest 500 lines, whichever is fewer: when it happened (with your phone's time zone), what was read or changed (with the task's name), which AI app, and whether the request came from a known AI app. Only you can read it.</li>
+    <li>For a line from an app Roundtuit doesn't recognise, it also keeps a rough country, looked up inside Roundtuit's own server from the request's internet address (IP geolocation by DB-IP, <a href="https://db-ip.com">db-ip.com</a>, CC BY 4.0). The address itself is never stored.</li>
+    <li>Sign out all AI apps, in Settings, signs every AI app out of Roundtuit at once and keeps these lines. Access also ends after 90 days without use, 180 days after the AI app signed in, and when your plan no longer includes Sync.</li>
+    <li>Wipe all data deletes these lines and any waiting proposals and signs every AI app out; Delete account removes everything the connector keeps.</li>
+  </ul>
 
   <h2>Diagnostics (optional)</h2>
   <ul>
