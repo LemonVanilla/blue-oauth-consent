@@ -18,7 +18,7 @@
 <body>
 <main>
   <h1>Echo: Privacy Policy</h1>
-  <p class="muted">Last updated 2026-11-16</p>
+  <p class="muted">Last updated 2026-11-22</p>
 
   <p>Echo is a podcast player for Android, made by Blue Hour. This copy of Echo is for one household's own use and is not listed in any app store. Nothing is sold, and there are no ads.</p>
 
@@ -39,7 +39,7 @@
   <h2>Google Drive Backup (optional)</h2>
   <ul>
     <li>Echo asks only for access to the files it makes itself in your Google Drive, and nothing else there. It cannot see your other Drive files, Gmail or contacts.</li>
-    <li>Backups go in an "Echo Backup" folder you can open in Drive like any other, with older backups in its "Archive" folder; the last 7 are kept. Each backup notes the phone model that made it, so your other phones can show where your latest backup came from.</li>
+    <li>Backups go in an "Echo Backup" folder you can open in Drive like any other. Each new backup replaces the one before it. If a backup holds much less than the one before it, the earlier one is kept for 30 days as a safety copy in its "Archive" folder. Each backup notes the phone model that made it, so your other phones can show where your latest backup came from.</li>
     <li>Restoring a backup only adds what the phone is missing. It never changes or removes anything.</li>
   </ul>
 
@@ -62,7 +62,7 @@
     <li>You don't have to use it. With Echo Sync, you can connect your own AI app, such as Claude, ChatGPT or Gemini, to your Echo account through the connector address in Settings.</li>
     <li>Once you sign in to it from that app, your AI app can read your library (shows, episodes, Queue, listening progress and history) and search Podcast Index for shows (only the search words are sent). It can follow or remove a show, or add to or reorder your Queue, only after you say yes in your AI app, and it can play, pause or skip on your phone when you ask.</li>
     <li>What you say to your AI app stays with that app and its own privacy policy. Echo never receives the chat.</li>
-    <li>For your safety, Echo keeps a line for each thing your AI app read or changed (when, what, which AI app, and whether the request came from that AI company's published addresses), shown in Settings and kept for 90 days. Echo never stores the internet address a request came from. For a request it can't match to your AI app, it keeps only a rough place (such as a city and country), looked up on Echo's own lookup service, which is sent only the address and keeps nothing.</li>
+    <li>For your safety, Echo keeps a line for each thing your AI app read or changed (when, what, which AI app, and whether the request came from that AI company's published addresses), shown in Settings and kept for 90 days. Echo never stores the internet address a request came from. For a request it can't match to your AI app, it keeps only a rough place on that line so you can spot one you don't recognise: the city and state for most US addresses and the country for others. That place is looked up inside Echo's own server from the request's internet address (IP geolocation by DB-IP, db-ip.com, CC BY 4.0); the address is sent nowhere else and isn't kept.</li>
     <li>A change you approve, or a play, pause or skip you ask for, waits on Echo's server until your phone does it (at most 7 days for a change, 5 minutes for playback) and is deleted 30 days after it ends. While Echo Sync is on, your phone checks for these and sends its time zone (such as America/Chicago), so the days your AI app talks about are your own.</li>
     <li>Sign out all AI apps in Settings ends every AI app's access at once. Access also ends after 90 days without use, after 180 days in any case, and when your plan no longer includes it. Wipe all data deletes these lines and signs every AI app out; Delete account removes everything the connector keeps.</li>
   </ul>
@@ -75,7 +75,7 @@
     <li>Podcast episodes and artwork are downloaded straight from each show's own host, as with any podcast app. Echo doesn't see or store the audio.</li>
     <li>Podcast search and Discover go through Echo's own server, which asks Podcast Index on Echo's behalf. It sends the search words, the category and language you pick, and Apple's show ID for Search Episodes' language check. No account data is sent.</li>
     <li>Apple: Search Episodes, Discover's Top Podcasts charts and show details go straight from your phone to itunes.apple.com, with rss.marketingtools.apple.com as the backup chart. They carry only the search words, the chart or category, Apple's show IDs and the US store; no account, email, name or Echo ID. Show artwork loads from Apple, and a Listen on Apple Podcasts link opens only when you tap it.</li>
-    <li>Play on uses Google's Firebase Cloud Messaging to deliver one message to the phone you picked. It carries the episode's ID from its feed, the spot to start from, the sending phone's name, your Echo account ID, a request ID and the time it was sent; nothing else from your account.</li>
+    <li>Play on uses Google's Firebase Cloud Messaging to deliver one message to the phone you picked. It carries the episode's ID from its feed, the spot to start from, the sending phone's name, your Echo account ID, Echo's ID for the phone it's for, a request ID, the time it was sent and when it stops being valid; nothing else from your account.</li>
     <li>Purchases are handled by Google Play, and RevenueCat records which plan your account has and when it renews. Echo never sees card details.</li>
   </ul>
 
