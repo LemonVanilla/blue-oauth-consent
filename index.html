@@ -23,9 +23,12 @@
 </head>
 <body>
 <main id="app"><h1>Allow access?</h1><p id="status">Checking your sign-in…</p></main>
+<!-- supabase-js 2.117.2, bundled here for Chrome 80+ (vendor/README.md): esm.sh's build pulls a polyfill that
+     needs Chrome 85, so Android 11's stock Chrome 83 never loaded this page (Roofbook 11-23, KNOWN-PITFALLS #796). -->
+<script src="vendor/supabase-2.117.2-chrome80.js"></script>
 <script type="module">
 // Pinned (Rainquail #119): a supabase-js release can't change this page under every connector.
-import { createClient } from 'https://esm.sh/@supabase/supabase-js@2.117.2';
+const { createClient } = window.supabase;
 
 const SUPABASE_URL = "https://hgfktbhjegakgzqqimbg.supabase.co";
 const SUPABASE_ANON_KEY = "sb_publishable_12YPySCowwHtXPMG8d3eLQ_m0L2UB1_";
@@ -35,7 +38,9 @@ const setStatus = (t) => { document.getElementById('status').textContent = t; };
 // textContent, never innerHTML: dynamic registration lets any client pick its
 // own name, so a name could otherwise carry HTML or script onto this page.
 const el = (tag, text, cls) => { const n = document.createElement(tag); if (text != null) n.textContent = text; if (cls) n.className = cls; return n; };
-const fail = (msg) => { app.replaceChildren(el('h1', 'Allow access?'), el('p', msg, 'err')); };
+// Swaps the page's content. Not replaceChildren: Chrome only has it from 86, and Android 11's stock Chrome is 83.
+const show = (...nodes) => { app.textContent = ''; app.append(...nodes); };
+const fail = (msg) => { show(el('h1', 'Allow access?'), el('p', msg, 'err')); };
 // Every call the page waits on gets a 20 s deadline, so it can never sit on a status line for good. The calls take no
 // signal, so the race only stops the wait; past it the page says so and offers Try again.
 const DEADLINE_MS = 20000;
@@ -47,7 +52,7 @@ const tooLong = () => {
   const again = el('button', 'Try again', 'primary'); again.id = 'again';
   again.onclick = () => location.reload();
   const row = el('div', null, 'row'); row.append(again);
-  app.replaceChildren(el('h1', 'Allow access?'), el('p', 'This is taking too long. Close this tab and connect again from your AI app.', 'err'), row);
+  show(el('h1', 'Allow access?'), el('p', 'This is taking too long. Close this tab and connect again from your AI app.', 'err'), row);
 };
 const failWith = (e) => { if (e && e.deadline) tooLong(); else fail((e && e.message) || String(e)); };
 // An already-approved request's redirect is followed only to https, or http on this computer (a local client).
@@ -73,6 +78,9 @@ try {
   } else {
     // 1. Signed in? If not, go through Google and come straight back here.
     let { data: { session } } = await withDeadline(sb.auth.getSession());
+    // Google's return puts the session's tokens in the address (#access_token=…). supabase-js has read them by now, so
+    // take them out of the address bar, history and any error report.
+    if (location.hash) history.replaceState(null, '', location.pathname + location.search);
     if (!session) {
       setStatus('Signing you in with Google…');
       const { error } = await sb.auth.signInWithOAuth({ provider: 'google', options: { redirectTo: location.href, queryParams: { prompt: 'select_account' } } });
@@ -87,7 +95,7 @@ try {
       if (details?.redirect_url && !details?.client) {
         const to = safeRedirect(details.redirect_url);
         if (to) {
-          app.replaceChildren(el('h1', 'Allow access?'), el('p', 'Already allowed. Taking you back to your AI app…'));
+          show(el('h1', 'Allow access?'), el('p', 'Already allowed. Taking you back to your AI app…'));
           location.replace(to);
         } else {
           fail('This request was already answered. You can close this tab and try connecting again.');
@@ -115,7 +123,7 @@ try {
         const other = el('button', 'Use a different account', 'link'); other.id = 'other';
         const notYou = el('p', 'Not you? ', 'muted'); notYou.append(other);
         parts.push(row, notYou);
-        app.replaceChildren(...parts);
+        show(...parts);
         const buttons = [...app.querySelectorAll('button')];
         const go = async (fn) => {
           buttons.forEach(b => b.disabled = true);
@@ -129,7 +137,7 @@ try {
         document.getElementById('approve').onclick = () => go((id, o) => sb.auth.oauth.approveAuthorization(id, o));
         document.getElementById('deny').onclick = () => go((id, o) => sb.auth.oauth.denyAuthorization(id, o));
         document.getElementById('other').onclick = async () => {
-          app.replaceChildren(el('h1', 'Allow access?'), el('p', 'Signing you in with Google…'));
+          show(el('h1', 'Allow access?'), el('p', 'Signing you in with Google…'));
           await sb.auth.signOut({ scope: 'local' });
           const { error } = await sb.auth.signInWithOAuth({ provider: 'google', options: { redirectTo: location.href, queryParams: { prompt: 'select_account' } } });
           if (error) fail('Sign-in failed: ' + error.message);
