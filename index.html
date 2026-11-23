@@ -64,6 +64,9 @@ const params = new URLSearchParams(location.search);
 const authorizationId = params.get('authorization_id');
 const sb = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
+// Nothing waits at the top level: Chrome before 89 (Android 11 phones, Chrome 83 on Moto_API30) refuses a module that uses it
+// and the page never loads. The whole flow runs in an async function instead, so every deadline still applies.
+(async () => {
 try {
   if (!authorizationId) {
     fail('This page is only reached from a connector authorization request (missing authorization_id). Nothing to approve.');
@@ -137,6 +140,7 @@ try {
 } catch (e) {
   failWith(e);
 }
+})();
 </script>
 </body>
 </html>
