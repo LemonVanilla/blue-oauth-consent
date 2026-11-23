@@ -23,9 +23,12 @@
 </head>
 <body>
 <main id="app"><h1>Allow access?</h1><p id="status">Checking your sign-in…</p></main>
+<!-- supabase-js 2.117.2, bundled here for Chrome 80+ (vendor/README.md): esm.sh's build pulls a polyfill that
+     needs Chrome 85, so Android 11's stock Chrome 83 never loaded this page (Roofbook 11-23, KNOWN-PITFALLS #796). -->
+<script src="../vendor/supabase-2.117.2-chrome80.js"></script>
 <script type="module">
 // Pinned (Rainquail #119): a supabase-js release can't change this page under every connector.
-import { createClient } from 'https://esm.sh/@supabase/supabase-js@2.117.2';
+const { createClient } = window.supabase;
 
 const SUPABASE_URL = "https://ffovjmbmbqjqlxwsfgdo.supabase.co";
 const SUPABASE_ANON_KEY = "sb_publishable_HBS-Vzu3gdXlCsWGvTwKGg_zi4oD7Qf";
