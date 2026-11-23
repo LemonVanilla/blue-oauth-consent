@@ -15,4 +15,6 @@ It lives here rather than on the Supabase project because Supabase forces
 sandbox` on any HTML served from `*.supabase.co/functions/v1/*` — which both
 stops the page rendering and blocks the script that is its entire purpose.
 
-Source of truth for this file is a private repo; edit it there.
+This repo is the source of truth: `index.html` is the prod page (hgfktbhjegakgzqqimbg) and `dev/index.html` the
+dev page (ffovjmbmbqjqlxwsfgdo), the same page with only the title, URL and key changed; edit both together. The
+older copy in the LemonVanilla repo (`blue/web/oauth-consent/`) is stale and not served.
