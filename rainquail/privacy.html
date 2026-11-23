@@ -18,16 +18,17 @@
 <body>
 <main>
   <h1>Rainquail: Privacy Policy</h1>
-  <p class="muted">Last updated 2026-11-21</p>
+  <p class="muted">Last updated 2026-11-23</p>
 
   <p>Rainquail is a private sprinkler system manager for one household's own use. It is not offered to the public.</p>
 
   <h2>Google sign-in and your Drive (optional)</h2>
   <ul>
-    <li>You don't have to sign in. Rainquail works fully on your phone without an account. Rainquail asks you to sign in with Google only when you choose Daily Backup or Sync.</li>
+    <li>You don't have to sign in. Rainquail works fully on your phone without an account. It asks you to sign in with Google only when you choose Sync. Backup needs no account: it asks only to connect your Google Drive.</li>
     <li>The Google account's name and email address, used only to identify the account that owns the yard.</li>
     <li>Your plan: a record of which Rainquail plan the account has, kept in Rainquail's database with the account's user ID (and, for a plan set before you first sign in, the email it was set for). The plan is set by hand; nothing is bought in the app yet.</li>
-    <li>With Daily Backup: access to the files Rainquail itself makes in your Google Drive, and nothing else there. Rainquail cannot see your other Drive files, Gmail or contacts.</li>
+    <li>With Backup: access to the files Rainquail itself makes in your Google Drive, and nothing else there. Rainquail cannot see your other Drive files, Gmail or contacts.</li>
+    <li>With Backup, you choose a Google account to connect its Drive, and Rainquail keeps that account's email and Google account ID on this phone only (with Sync, the Drive is your signed-in account's).</li>
   </ul>
 
   <h2>What Rainquail keeps</h2>
@@ -37,7 +38,7 @@
     <li>The controller password or PIN is kept in Android's encrypted storage on this phone. Rainquail uses it only to lock the messages it sends to your controller over your home Wi-Fi; it is never sent anywhere else and never included in an export, backup or sync, or in Android's own backup.</li>
     <li>Export data and Yard sheet create a file on your phone, Parts list shares text, and you choose where to share it. The yard sheet has your yard map, zones, heads, valves, shutoff and controller model, never the controller's password, PIN or address, your Wi-Fi details, or your property's name and ZIP, and has photos only if you turn them on.</li>
     <li>App Lock uses the phone's own fingerprint, face or screen lock. Rainquail never sees or stores them.</li>
-    <li>With Daily Backup, a copy of your yard and your Preferences (property name, ZIP and time zone, watering restrictions, theme, haptics and the Watering finished notification) is saved to a folder Rainquail makes in your own Google Drive. A restore sets your Preferences only when you tick Also restore my Preferences. That copy is yours, and you can delete it there at any time. It never includes photos, the controller's password or PIN, its address or any Wi-Fi details.</li>
+    <li>With Backup, a copy of your yard and your Preferences (property name, ZIP and time zone, watering restrictions, theme, haptics and the Watering finished notification) is saved to a folder Rainquail makes in your own Google Drive. A restore sets your Preferences only when you tick Also restore my Preferences. That copy is yours, and you can delete it there at any time. It never includes photos, the controller's password or PIN, its address or any Wi-Fi details.</li>
     <li>Feedback you send from the app: your message plus the Rainquail version, your plan, the phone's make, model and Android version, a reply email only if you give one and, if signed in, the account email and user ID. It is stored in Rainquail's database and emailed to Rainquail's feedback inbox. When you are not signed in, a salted, one-way code made from the phone's internet address is kept only to limit how much feedback can be sent.</li>
   </ul>
 
@@ -48,18 +49,18 @@
 
   <h2>Sync (optional)</h2>
   <ul>
-    <li>Only if you have a plan with Sync: your yard, equipment, programs, catch-cup tests, heads that need work, season checklists, wire colours, profile and property details are saved to your Rainquail account in a private cloud database, where row-level security limits each row to its owner's account, so your other phones show the same thing. Without Sync, nothing about your yard is kept on a server.</li>
+    <li>Only if you have a plan with Sync: your yard, equipment, programs, catch-cup tests, heads that need work, season checklists, wire colours, profile and property details are saved to your Rainquail account in a private cloud database, where row-level security limits each row to its owner's account, so your other devices show the same thing. Without Sync, nothing about your yard is kept on a server.</li>
     <li>Photos, the controller's password, PIN and address, and your Wi-Fi details stay on the phone and are never sent.</li>
-    <li>If Sync ends, your data stays on your phones, and the copy on your account is kept until the 1st of the month after your next full month, then deleted.</li>
-    <li>Wipe all data removes it from your account and your other phones at once; Delete account removes it with your account.</li>
+    <li>If Sync ends, your data stays on your devices, and the copy on your account is kept until the 1st of the month after your next full month, then deleted.</li>
+    <li>Wipe all data removes it from your account and your other devices at once; Delete account removes it with your account.</li>
   </ul>
 
-  <h2>Blue Connector (optional)</h2>
+  <h2>Your AI Connector (optional)</h2>
   <ul>
     <li>You don't have to use it. It comes with Sync: you can connect your own AI app (such as Claude or ChatGPT) to Rainquail. It signs in with your Google account.</li>
     <li>Your AI app can then read and change your synced Rainquail data: zones, sprinkler heads, valves, shutoffs, wire colours, programs, catch-cup tests, your property and your watering restriction, and read (never change) the heads you've marked as needing work. It changes something only after you say yes in the AI app.</li>
     <li>It never sees photos, your controller's password, PIN or address, or any Wi-Fi detail, because those never leave your phone. It never runs, stops or changes your sprinkler controller.</li>
-    <li>Rainquail keeps a list of what each AI app read or changed for 90 days (at most 500 lines): when, what, and which AI app, so you can see it in Settings → Blue Connector. For a request that doesn't come from a known AI app it keeps a rough place, the city and state for most US addresses and the country for others, looked up inside Rainquail's own server from the request's internet address (IP geolocation by DB-IP, <a href="https://db-ip.com">db-ip.com</a>, CC BY 4.0). The address itself is never stored.</li>
+    <li>Rainquail keeps a list of what each AI app read or changed for 90 days (at most 500 lines): when, what, and which AI app, so you can see it in Settings → Your AI Connector. For a request that doesn't come from a known AI app it keeps a rough place, the city and state for most US addresses and the country for others, looked up inside Rainquail's own server from the request's internet address (IP geolocation by DB-IP, <a href="https://db-ip.com">db-ip.com</a>, CC BY 4.0). The address itself is never stored.</li>
     <li>Your chats with your AI app stay with the AI company.</li>
     <li>Sign out all AI apps signs every AI app out and keeps the list; Wipe all data and Delete account delete it.</li>
   </ul>
@@ -67,9 +68,9 @@
   <h2>Who else is involved</h2>
   <ul>
     <li>For watering advice, the ZIP code you type in is sent to Open-Meteo to find the place, and then that place's latitude and longitude for the forecast. Rainquail never reads the phone's location.</li>
-    <li>The AI app you connect to Blue Connector, only for what you ask it to do.</li>
+    <li>The AI app you connect to Your AI Connector, only for what you ask it to do.</li>
     <li>DB-IP, whose free IP geolocation data, kept as a copy inside Rainquail's own server, gives the rough place for a request not from a known AI app. The address is never sent to DB-IP or anyone else.</li>
-    <li>If paid plans are offered, purchases are handled by Google Play. Rainquail never sees card details.</li>
+    <li>Purchases are handled by Google Play. Rainquail never sees card details. What this phone bought is read from Google Play on the phone; only Sync and Lifetime are checked on Rainquail's server, by your account.</li>
   </ul>
 
   <h2>What it doesn't do</h2>
@@ -77,7 +78,7 @@
 
   <h2>Your choices</h2>
   <ul>
-    <li>Everything can be exported or deleted in the app, under Settings → Data, including deleting the account. Wipe all data also deletes your Blue Connector activity. Deleting the account removes your plan record, your synced data, your Blue Connector activity and the feedback you sent, and your Google sign-in once no other app still uses it; your Drive backup stays in your Drive. You can also ask for deletion on the <a href="../delete/">account and data deletion page</a>.</li>
+    <li>Everything can be exported or deleted in the app, under Settings → Data, including deleting the account. Wipe all data also deletes the activity list in Your AI Connector. Deleting the account removes your plan record, your synced data, the activity list in Your AI Connector and the feedback you sent, and your Google sign-in once no other app still uses it; your Drive backup stays in your Drive. You can also ask for deletion on the <a href="../delete/">account and data deletion page</a>.</li>
     <li>To remove Rainquail's access to your Google account: Google Account → Security → Third-party access → Rainquail → Remove access.</li>
   </ul>
 
