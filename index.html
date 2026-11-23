@@ -24,7 +24,8 @@
 <body>
 <main id="app"><h1>Allow access?</h1><p id="status">Checking your sign-in…</p></main>
 <script type="module">
-import { createClient } from 'https://esm.sh/@supabase/supabase-js@2';
+// Pinned (Rainquail #119): a supabase-js release can't change this page under every connector.
+import { createClient } from 'https://esm.sh/@supabase/supabase-js@2.117.2';
 
 const SUPABASE_URL = "https://hgfktbhjegakgzqqimbg.supabase.co";
 const SUPABASE_ANON_KEY = "sb_publishable_12YPySCowwHtXPMG8d3eLQ_m0L2UB1_";
@@ -35,6 +36,29 @@ const setStatus = (t) => { document.getElementById('status').textContent = t; };
 // own name, so a name could otherwise carry HTML or script onto this page.
 const el = (tag, text, cls) => { const n = document.createElement(tag); if (text != null) n.textContent = text; if (cls) n.className = cls; return n; };
 const fail = (msg) => { app.replaceChildren(el('h1', 'Allow access?'), el('p', msg, 'err')); };
+// Every call the page waits on gets a 20 s deadline, so it can never sit on a status line for good. The calls take no
+// signal, so the race only stops the wait; past it the page says so and offers Try again.
+const DEADLINE_MS = 20000;
+const withDeadline = (p) => new Promise((resolve, reject) => {
+  const t = setTimeout(() => reject(Object.assign(new Error('deadline'), { deadline: true })), DEADLINE_MS);
+  Promise.resolve(p).then((v) => { clearTimeout(t); resolve(v); }, (e) => { clearTimeout(t); reject(e); });
+});
+const tooLong = () => {
+  const again = el('button', 'Try again', 'primary'); again.id = 'again';
+  again.onclick = () => location.reload();
+  const row = el('div', null, 'row'); row.append(again);
+  app.replaceChildren(el('h1', 'Allow access?'), el('p', 'This is taking too long. Close this tab and connect again from your AI app.', 'err'), row);
+};
+const failWith = (e) => { if (e && e.deadline) tooLong(); else fail((e && e.message) || String(e)); };
+// An already-approved request's redirect is followed only to https, or http on this computer (a local client).
+const safeRedirect = (u) => {
+  try {
+    const x = new URL(String(u));
+    if (x.protocol === 'https:') return x.href;
+    if (x.protocol === 'http:' && ['localhost', '127.0.0.1', '[::1]'].includes(x.hostname)) return x.href;
+  } catch { /* not a URL */ }
+  return null;
+};
 
 const params = new URLSearchParams(location.search);
 const authorizationId = params.get('authorization_id');
@@ -45,7 +69,7 @@ try {
     fail('This page is only reached from a connector authorization request (missing authorization_id). Nothing to approve.');
   } else {
     // 1. Signed in? If not, go through Google and come straight back here.
-    let { data: { session } } = await sb.auth.getSession();
+    let { data: { session } } = await withDeadline(sb.auth.getSession());
     if (!session) {
       setStatus('Signing you in with Google…');
       const { error } = await sb.auth.signInWithOAuth({ provider: 'google', options: { redirectTo: location.href, queryParams: { prompt: 'select_account' } } });
@@ -53,51 +77,65 @@ try {
     } else {
       // 2. What is being asked?
       setStatus('Loading the request…');
-      const { data: details, error } = await sb.auth.oauth.getAuthorizationDetails(authorizationId);
+      const { data: details, error } = await withDeadline(sb.auth.oauth.getAuthorizationDetails(authorizationId));
       if (error) throw error;
-      const client = details?.client?.name ?? details?.client_name ?? 'an app';
-      const scopes = details?.scopes ?? details?.scope?.split(' ') ?? [];
-      const email = session.user.email ?? session.user.id;
-      const h1 = el('h1');
-      h1.append(el('span', String(client), 'who'), ' wants to use your account');
-      const who = el('p', 'Signed in as ');
-      who.append(el('span', String(email), 'who'), '.');
-      const parts = [h1, who,
-        el('p', 'Approving lets this AI app read your data and make the changes you ask it for. You can see everything it did, and sign it out, in the app’s Settings.')];
-      if (scopes.length) {
-        parts.push(el('p', 'Requested access:'));
-        const ul = el('ul');
-        for (const sc of scopes) ul.append(el('li', String(sc)));
-        parts.push(ul);
+      // 3. Already allowed? When a consent already covers the request, Supabase approves it on the spot and answers
+      // only the AI app's redirect (no client details). Go straight back; replace, so Back doesn't re-run the request.
+      if (details?.redirect_url && !details?.client) {
+        const to = safeRedirect(details.redirect_url);
+        if (to) {
+          app.replaceChildren(el('h1', 'Allow access?'), el('p', 'Already allowed. Taking you back to your AI app…'));
+          location.replace(to);
+        } else {
+          fail('This request was already answered. You can close this tab and try connecting again.');
+        }
+      } else {
+        const client = details?.client?.name ?? details?.client_name ?? 'an app';
+        const scopes = details?.scopes ?? details?.scope?.split(' ') ?? [];
+        const email = session.user.email ?? session.user.id;
+        const h1 = el('h1');
+        h1.append(el('span', String(client), 'who'), ' wants to use your account');
+        const who = el('p', 'Signed in as ');
+        who.append(el('span', String(email), 'who'), '.');
+        const parts = [h1, who,
+          el('p', 'Approving lets this AI app read your data and make the changes you ask it for. You can see everything it did, and sign it out, in the app’s Settings.')];
+        if (scopes.length) {
+          parts.push(el('p', 'Requested access:'));
+          const ul = el('ul');
+          for (const sc of scopes) ul.append(el('li', String(sc)));
+          parts.push(ul);
+        }
+        const row = el('div', null, 'row');
+        const deny = el('button', 'Deny'); deny.id = 'deny';
+        const approve = el('button', 'Approve', 'primary'); approve.id = 'approve';
+        row.append(deny, approve);
+        const other = el('button', 'Use a different account', 'link'); other.id = 'other';
+        const notYou = el('p', 'Not you? ', 'muted'); notYou.append(other);
+        parts.push(row, notYou);
+        app.replaceChildren(...parts);
+        const buttons = [...app.querySelectorAll('button')];
+        const go = async (fn) => {
+          buttons.forEach(b => b.disabled = true);
+          let data, error;
+          // skipBrowserRedirect: the page goes to the redirect itself (auth-js answers redirect_url).
+          try { ({ data, error } = await withDeadline(fn(authorizationId, { skipBrowserRedirect: true }))); } catch (e) { failWith(e); return; }
+          if (error) { buttons.forEach(b => b.disabled = false); fail(error.message); return; }
+          const to = data?.redirect_url ?? data?.redirect_to;
+          if (to) location.href = to; else fail('Done, but no redirect was returned. You can close this tab.');
+        };
+        document.getElementById('approve').onclick = () => go((id, o) => sb.auth.oauth.approveAuthorization(id, o));
+        document.getElementById('deny').onclick = () => go((id, o) => sb.auth.oauth.denyAuthorization(id, o));
+        document.getElementById('other').onclick = async () => {
+          app.replaceChildren(el('h1', 'Allow access?'), el('p', 'Signing you in with Google…'));
+          await sb.auth.signOut({ scope: 'local' });
+          const { error } = await sb.auth.signInWithOAuth({ provider: 'google', options: { redirectTo: location.href, queryParams: { prompt: 'select_account' } } });
+          if (error) fail('Sign-in failed: ' + error.message);
+        };
       }
-      const row = el('div', null, 'row');
-      const deny = el('button', 'Deny'); deny.id = 'deny';
-      const approve = el('button', 'Approve', 'primary'); approve.id = 'approve';
-      row.append(deny, approve);
-      const other = el('button', 'Use a different account', 'link'); other.id = 'other';
-      const notYou = el('p', 'Not you? ', 'muted'); notYou.append(other);
-      parts.push(row, notYou);
-      app.replaceChildren(...parts);
-      const buttons = [...app.querySelectorAll('button')];
-      const go = async (fn) => {
-        buttons.forEach(b => b.disabled = true);
-        const { data, error } = await fn(authorizationId);
-        if (error) { buttons.forEach(b => b.disabled = false); fail(error.message); return; }
-        const to = data?.redirect_to ?? data?.redirectTo;
-        if (to) location.href = to; else fail('Done, but no redirect was returned. You can close this tab.');
-      };
-      document.getElementById('approve').onclick = () => go((id) => sb.auth.oauth.approveAuthorization(id));
-      document.getElementById('deny').onclick = () => go((id) => sb.auth.oauth.denyAuthorization(id));
-      document.getElementById('other').onclick = async () => {
-        app.replaceChildren(el('h1', 'Allow access?'), el('p', 'Signing you in with Google…'));
-        await sb.auth.signOut({ scope: 'local' });
-        const { error } = await sb.auth.signInWithOAuth({ provider: 'google', options: { redirectTo: location.href, queryParams: { prompt: 'select_account' } } });
-        if (error) fail('Sign-in failed: ' + error.message);
-      };
     }
   }
 } catch (e) {
-  fail((e && e.message) || String(e));
+  failWith(e);
 }
 </script>
 </body>
