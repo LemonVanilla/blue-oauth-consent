@@ -30,20 +30,28 @@
 
   <h2>Google sign-in and your Drive (optional)</h2>
   <ul>
-    <li>You don't have to sign in. Roofbook works fully on your phone without an account. Roofbook asks you to sign in with Google only when you choose a plan that needs it (Daily Backup or Sync).</li>
+    <li>You don't have to sign in. Roofbook works fully on your phone without an account. Roofbook asks you to sign in with Google only when you choose the plan that needs it (Sync).</li>
+    <li>Backup needs no account: after buying it you connect the Google account whose Drive it writes to, and Roofbook keeps that account's email and Google ID on your phone only.</li>
     <li>The Google account's email address and user ID, used only to identify the account that owns the plan.</li>
-    <li>Your plan: a record of which Roofbook plan the account has, kept in Roofbook's database with the account's user ID (and, for a plan set before you first sign in, the email it was set for). The plan is set by hand; nothing is bought in the app.</li>
-    <li>With Daily Backup: access to the files Roofbook itself makes in your Google Drive, and nothing else there. Roofbook cannot see your other Drive files, Gmail or contacts.</li>
+    <li>Your Sync plan: a record of whether the account has Sync, kept in Roofbook's database with the account's user ID (and, for a plan set before you first sign in, the email it was set for). Backup is held by Google Play on your phone, not on the account.</li>
+    <li>With Backup: access to the files Roofbook itself makes in your Google Drive, and nothing else there. Roofbook cannot see your other Drive files, Gmail or contacts.</li>
     <li>A backup is a copy of your records and, if you choose, your Preferences (reminder settings, theme and vibration strength), saved to a Roofbook Backup folder in your own Google Drive. That copy is yours, and you can delete it there at any time. It never includes your AI keys, your profile or your sign-in.</li>
   </ul>
 
   <h2>Android's own backup (optional)</h2>
-  <p>Android can back up apps to your own Google account. This is set in your phone's settings, not in Roofbook. When it's on, Android copies only a few small app-preference files of Roofbook's to your Google account and puts them back if you reinstall or move to a new phone. Your homes, History, settings and other records aren't in that copy (Daily Backup is how to keep those). Roofbook can't see that copy. Your AI keys and your sign-in are left out of it.</p>
+  <p>Android can back up apps to your own Google account. This is set in your phone's settings, not in Roofbook. When it's on, Android copies only a few small app-preference files of Roofbook's to your Google account and puts them back if you reinstall or move to a new phone. Your homes, History, settings and other records aren't in that copy (Backup is how to keep those). Roofbook can't see that copy. Your AI keys and your sign-in are left out of it.</p>
+
+  <h2>Purchases (optional)</h2>
+  <ul>
+    <li>You don't have to buy anything: Free keeps everything on your phone.</li>
+    <li>Backup and Sync are bought in Google Play, which handles the payment. Roofbook never sees card details.</li>
+    <li>RevenueCat, which checks purchases for Roofbook, gets your Google Play purchase records under a random ID made for this install, never your name or email. With Sync, that ID is linked to your Roofbook account's user ID, so Sync follows your account. Delete account sets it back to a new random ID.</li>
+  </ul>
 
   <h2>Sync (optional)</h2>
   <ul>
     <li>You don't have to use it. Without Sync, your records stay only on your phone.</li>
-    <li>With Sync, your records (the homes, systems, items, History entries, maintenance schedules and projects, and the order you keep them in) are kept on your account on Roofbook's server, so they reach your other phones and anyone you invite.</li>
+    <li>With Sync, your records (the homes, systems, items, History entries, maintenance schedules and projects, and the order you keep them in) are kept on your account on Roofbook's server, so they reach your other devices and anyone you invite.</li>
     <li>Your display name is kept with your account. If you share a home, the people you invite into it can see its records, each other's display names and who changed what.</li>
     <li>When Sync ends, the copy on your account is kept through the end of the next full calendar month, then deleted on the 1st after it. Your records stay on your phone.</li>
   </ul>
@@ -55,11 +63,11 @@
     <li>Your key stays on this phone in its secure storage and is never backed up, exported or sent to Roofbook.</li>
   </ul>
 
-  <h2>Your AI Connector (optional)</h2>
+  <h2>Blue Connector (optional)</h2>
   <ul>
     <li>You don't have to use it. It comes with Sync: you add it to your own AI app (such as Claude, ChatGPT or Gemini) and sign in there with the Google account you use in Roofbook.</li>
     <li>Your AI app can then read the homes you're in as Sync keeps them on Roofbook's server, and change them only after you say yes to each change in your AI app. Roofbook never sees your chat.</li>
-    <li>For each read or change, Roofbook keeps what was done, the record's name, when, and which AI app it came from, for 90 days, so you can see it in Settings → Your AI Connector. A request that didn't come from a known AI app also shows a rough place, the city and state for most US addresses and the country for others, looked up inside Roofbook's own server from its internet address, with IP geolocation by DB-IP. The address itself is never stored.</li>
+    <li>For each read or change, Roofbook keeps what was done, the record's name, when, and which AI app it came from, for 90 days, so you can see it in Settings → Blue Connector. A request that didn't come from a known AI app also shows a rough place, the city and state for most US addresses and the country for others, looked up inside Roofbook's own server from its internet address, with IP geolocation by DB-IP. The address itself is never stored.</li>
     <li>Signed in, Roofbook keeps your phone's time zone (such as America/Chicago) with your account, so dates are your own day.</li>
     <li>Sign out all AI apps signs every AI app out at once. Wipe all data and Delete account delete this activity.</li>
   </ul>
@@ -80,9 +88,9 @@
   <ul>
     <li>Google, for sign-in and for the backups in your own Drive.</li>
     <li>The AI company you pick, only for the scans you start, on your own key.</li>
-    <li>The AI app you connect to Your AI Connector, only for what you ask it to do.</li>
+    <li>The AI app you connect to Blue Connector, only for what you ask it to do.</li>
     <li>DB-IP, whose free IP geolocation data gives the rough place for a request not from a known AI app.</li>
-    <li>If paid plans are offered, purchases are handled by Google Play. Roofbook never sees card details.</li>
+    <li>Google Play, for purchases, and RevenueCat, which checks them under a random ID (above). Roofbook never sees card details.</li>
   </ul>
 
   <h2>What it doesn't do</h2>
@@ -90,7 +98,7 @@
 
   <h2>Your choices</h2>
   <ul>
-    <li>Everything can be exported or deleted in the app, under Settings → Data. Wipe all data clears the phone and, when signed in, the diagnostics reports and Your AI Connector activity tied to your account and your records on Roofbook's server (a home only you own is deleted, and you leave a home shared with other owners), and keeps your account and plan. Delete account also removes your plan record, your profile and time zone, the feedback and diagnostics you sent, and your Google sign-in once no other app still uses it. Your Drive backups stay in your Drive. You can also ask for deletion on the <a href="../delete/#roofbook">account and data deletion page</a>.</li>
+    <li>Everything can be exported or deleted in the app, under Settings → Data. Wipe all data clears the phone and, when signed in, the diagnostics reports and Blue Connector activity tied to your account and your records on Roofbook's server (a home only you own is deleted, and you leave a home shared with other owners), and keeps your account and plan. Delete account also removes your plan record, your profile and time zone, the feedback and diagnostics you sent, and your Google sign-in once no other app still uses it. Your Drive backups stay in your Drive. You can also ask for deletion on the <a href="../delete/#roofbook">account and data deletion page</a>.</li>
     <li>To remove Roofbook's access to your Google account: Google Account → Security → Third-party access → Roofbook → Remove access.</li>
   </ul>
 
